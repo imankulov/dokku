@@ -7,13 +7,8 @@ trigger-builder-nixpacks-builder-detect() {
   declare desc="builder-nixpacks builder-detect plugin trigger"
   declare trigger="builder-detect"
   declare APP="$1" SOURCECODE_WORK_DIR="$2"
-  local ARCHITECTURE="$(dpkg --print-architecture 2>/dev/null || true)"
 
-  if [[ "$ARCHITECTURE" == "armhf" ]]; then
-    return
-  fi
-
-  if [[ -f "$SOURCECODE_WORK_DIR/nixpacks.yml" ]]; then
+  if [[ -f "$SOURCECODE_WORK_DIR/nixpacks.toml" ]]; then
     echo "nixpacks"
     return
   fi

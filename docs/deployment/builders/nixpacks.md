@@ -18,6 +18,32 @@ dokku builder:set node-js-app selected nixpacks
 
 See the [upstream nixpacks documentation](https://nixpacks.com/docs) for further information on what languages and frameworks are supported.
 
+### Changing the `nixpacks.toml` location
+
+When deploying a monorepo, it may be desirable to specify the specific path of the `nixpacks.toml` file to use for a given app. This can be done via the `builder-nixpacks:set` command. If a value is specified and that file does not exist in the app's build directory, then the build will fail.
+
+```shell
+dokku builder-nixpacks:set node-js-app nixpackstoml-path nixpacks2.toml
+```
+
+The default value may be set by passing an empty value for the option:
+
+```shell
+dokku builder-nixpacks:set node-js-app nixpackstoml-path
+```
+
+The `nixpackstoml-path` property can also be set globally. The global default is `nixpacks.toml`, and the global value is used when no app-specific value is set.
+
+```shell
+dokku builder-nixpacks:set --global nixpackstoml-path nixpacks2.toml
+```
+
+The default value may be set by passing an empty value for the option.
+
+```shell
+dokku builder-nixpacks:set --global nixpackstoml-path
+```
+
 ### Disabling cache
 
 Cache is enabled by default, but can be disabled by setting the `no-cache` property to `true`:
@@ -54,16 +80,25 @@ dokku builder-nixpacks:report
 
 ```
 =====> node-js-app builder-nixpacks information
-       Builder-nixpacks computed no cache: true
-       Builder-nixpacks global no cache:   false
-       Builder-nixpacks no cache:          true
+       Builder-nixpacks computed nixpackstoml path: nixpacks2.toml
+       Builder-nixpacks global nixpackstoml path:   nixpacks.toml
+       Builder-nixpacks nixpackstoml path:          nixpacks2.toml
+       Builder-nixpacks computed no cache:          true
+       Builder-nixpacks global no cache:            false
+       Builder-nixpacks no cache:                   true
 =====> python-sample builder-nixpacks information
-       Builder-nixpacks computed no cache: false
-       Builder-nixpacks global no cache:   false
+       Builder-nixpacks computed nixpackstoml path: nixpacks.toml
+       Builder-nixpacks global nixpackstoml path:   nixpacks.toml
+       Builder-nixpacks nixpackstoml path:
+       Builder-nixpacks computed no cache:          false
+       Builder-nixpacks global no cache:            false
        Builder-nixpacks no cache:
 =====> ruby-sample builder-nixpacks information
-       Builder-nixpacks computed no cache: false
-       Builder-nixpacks global no cache:   false
+       Builder-nixpacks computed nixpackstoml path: nixpacks.toml
+       Builder-nixpacks global nixpackstoml path:   nixpacks.toml
+       Builder-nixpacks nixpackstoml path:
+       Builder-nixpacks computed no cache:          false
+       Builder-nixpacks global no cache:            false
        Builder-nixpacks no cache:
 ```
 
@@ -75,9 +110,12 @@ dokku builder-nixpacks:report node-js-app
 
 ```
 =====> node-js-app builder-nixpacks information
-       Builder-nixpacks computed no cache: true
-       Builder-nixpacks global no cache:   false
-       Builder-nixpacks no cache:          true
+       Builder-nixpacks computed nixpackstoml path: nixpacks2.toml
+       Builder-nixpacks global nixpackstoml path:   nixpacks.toml
+       Builder-nixpacks nixpackstoml path:          nixpacks2.toml
+       Builder-nixpacks computed no cache:          true
+       Builder-nixpacks global no cache:            false
+       Builder-nixpacks no cache:                   true
 ```
 
 You can pass flags which will output only the value of the specific information you want. For example:
