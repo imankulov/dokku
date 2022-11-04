@@ -22,6 +22,7 @@ func export(appName string, merged bool, format string) error {
 		"exports":          ExportFormatExports,
 		"json":             ExportFormatJSON,
 		"json-list":        ExportFormatJSONList,
+		"key-list":         ExportFormatKeyList,
 		"pack-keys":        ExportFormatPackArgKeys,
 		"pretty":           ExportFormatPretty,
 		"shell":            ExportFormatShell,
