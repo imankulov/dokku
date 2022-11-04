@@ -36,7 +36,7 @@ trigger-builder-nixpacks-builder-build() {
   eval "$(config_export app "$APP" --merged)"
 
   # shellcheck disable=SC2086
-  nixpacks build "$SOURCECODE_WORK_DIR" --label org.label-schema.schema-version=1.0 --label org.label-schema.vendor=dokku --label com.dokku.image-stage=build --label com.dokku.builder-type=nixpacks --label "com.dokku.app-name=$APP" $DOKKU_GLOBAL_BUILD_ARGS $NIXPACKS_ARGS "${ENV_ARGS[@]}" "$IMAGE"
+  nixpacks build "$SOURCECODE_WORK_DIR" --label org.label-schema.schema-version=1.0 --label org.label-schema.vendor=dokku --label com.dokku.image-stage=build --label com.dokku.builder-type=nixpacks --label "com.dokku.app-name=$APP" $DOKKU_GLOBAL_BUILD_ARGS $NIXPACKS_ARGS "${ENV_ARGS[@]}" --name "$IMAGE"
 
   plugn trigger post-build-nixpacks "$APP"
   popd &>/dev/null || pushd "/tmp" >/dev/null
