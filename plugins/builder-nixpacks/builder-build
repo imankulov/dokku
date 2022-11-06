@@ -32,11 +32,12 @@ trigger-builder-nixpacks-builder-build() {
     NIXPACKS_ARGS="$NIXPACKS_ARGS --no-cache"
   fi
 
-  ENV_ARGS=($(config_export app "$APP" --format pack-keys --merged))
+  ENV_ARGS=($(config_export app "$APP" --format key-list --merged))
   eval "$(config_export app "$APP" --merged)"
 
+  # todo: add support for DOKKU_GLOBAL_BUILD_ARGS
   # shellcheck disable=SC2086
-  nixpacks build --label org.label-schema.schema-version=1.0 --label org.label-schema.vendor=dokku --label com.dokku.image-stage=build --label com.dokku.builder-type=nixpacks --label "com.dokku.app-name=$APP" $DOKKU_GLOBAL_BUILD_ARGS $NIXPACKS_ARGS "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
+  nixpacks build --label org.label-schema.schema-version=1.0 org.label-schema.vendor=dokku com.dokku.image-stage=build com.dokku.builder-type=nixpacks "com.dokku.app-name=$APP" $NIXPACKS_ARGS --env "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
 
   plugn trigger post-build-nixpacks "$APP"
   popd &>/dev/null || pushd "/tmp" >/dev/null
