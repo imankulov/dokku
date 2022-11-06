@@ -6,9 +6,19 @@ The `nixpacks` builder builds apps via [Nixpacks](https://nixpacks.com/), a buil
 
 ## Usage
 
+### Requirements
+
+The `nixpacks` cli tool is not included by default with Dokku or as a dependency. It must also be installed as shown on [this page](https://nixpacks.com/docs/install#debian-(and-derivatives-like-ubuntu)).
+
+Builds will proceed with the `nixpacks` cli for the app from then on.
+
 ### Detection
 
-This builder is not auto-detected, and must be selected via the `builder:set` command
+This builder will be auto-detected in the following case:
+
+- A `nixpacks.toml` exists in the root of the app repository.
+
+The builder may also be selected via the `builder:set` command
 
 ```shell
 dokku builder:set node-js-app selected nixpacks
