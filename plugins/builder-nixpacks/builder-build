@@ -35,7 +35,13 @@ trigger-builder-nixpacks-builder-build() {
   ENV_ARGS=($(config_export app "$APP" --format key-list --merged))
   eval "$(config_export app "$APP" --merged)"
 
-  # todo: add support for DOKKU_GLOBAL_BUILD_ARGS
+  if [[ -f "$SOURCECODE_WORK_DIR/Procfile" ]]; then
+    if procfile-util exists -p release; then
+      procfile-util delete --process release
+    fi
+  fi
+
+  # TODO: add support for DOKKU_GLOBAL_BUILD_ARGS
   # shellcheck disable=SC2086
   nixpacks build --label org.label-schema.schema-version=1.0 org.label-schema.vendor=dokku com.dokku.image-stage=build com.dokku.builder-type=nixpacks "com.dokku.app-name=$APP" $NIXPACKS_ARGS --env "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
 
