@@ -1021,7 +1021,7 @@ fn-migrate-config-to-property() {
   declare desc="migrates deprecated config variables to property counterpart"
   declare PLUGIN="$1" KEY="$2" CONFIG_VAR="$3" GLOBAL_CONFIG_VAR="$4"
 
-  # todo: refactor to remove config_unset usage
+  # TODO: refactor to remove config_unset usage
   if ! declare -f -F config_unset >/dev/null; then
     source "$PLUGIN_AVAILABLE_PATH/config/functions"
   fi

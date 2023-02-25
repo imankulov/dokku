@@ -4,7 +4,7 @@ Transform: AWS::Serverless-2016-10-31
 Description: >
   {{ $.APP }}
 
-# todo: iterate over every process type and create a resource entry
+# TODO: iterate over every process type and create a resource entry
 Resources:
   {{ $.APP}}{{ $.PROCESS_TYPE | capitalize}}:
     Type: AWS::Serverless::Function
