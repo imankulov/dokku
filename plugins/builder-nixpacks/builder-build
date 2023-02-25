@@ -36,8 +36,8 @@ trigger-builder-nixpacks-builder-build() {
   eval "$(config_export app "$APP" --merged)"
 
   if [[ -f "$SOURCECODE_WORK_DIR/Procfile" ]]; then
-    if procfile-util exists -p release; then
-      procfile-util delete --process release
+    if procfile-util exists --process-type release; then
+      procfile-util delete --process-type release
     fi
   fi
 
