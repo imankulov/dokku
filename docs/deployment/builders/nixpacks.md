@@ -1,6 +1,6 @@
 # Nixpacks
 
-> New as of 0.29.0
+> New as of 0.31.0
 
 The `nixpacks` builder builds apps via [Nixpacks](https://nixpacks.com/), a buildpack alternative.
 

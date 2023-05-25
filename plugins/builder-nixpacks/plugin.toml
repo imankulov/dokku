@@ -1,4 +1,4 @@
 [plugin]
 description = "dokku core builder-nixpacks plugin"
-version = "0.30.1"
+version = "0.30.4"
 [plugin.config]
