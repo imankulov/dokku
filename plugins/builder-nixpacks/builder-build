@@ -24,7 +24,7 @@ trigger-builder-nixpacks-builder-build() {
 
   pushd "$SOURCECODE_WORK_DIR" &>/dev/null
 
-  plugn trigger pre-build-nixpacks "$APP"
+  plugn trigger pre-build "$BUILDER_TYPE" "$APP" "$SOURCECODE_WORK_DIR"
 
   no_cache="$(fn-builder-nixpacks-computed-no-cache "$APP")"
   NIXPACKS_ARGS=""
@@ -45,7 +45,7 @@ trigger-builder-nixpacks-builder-build() {
   # shellcheck disable=SC2086
   nixpacks build --label org.label-schema.schema-version=1.0 org.label-schema.vendor=dokku com.dokku.image-stage=build com.dokku.builder-type=nixpacks "com.dokku.app-name=$APP" $NIXPACKS_ARGS --env "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
 
-  plugn trigger post-build-nixpacks "$APP"
+  plugn trigger post-build "$BUILDER_TYPE" "$APP" "$SOURCECODE_WORK_DIR"
   popd &>/dev/null || pushd "/tmp" >/dev/null
 }
 
