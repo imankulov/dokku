@@ -41,9 +41,13 @@ trigger-builder-nixpacks-builder-build() {
     fi
   fi
 
-  # TODO: add support for DOKKU_GLOBAL_BUILD_ARGS
   # shellcheck disable=SC2086
-  nixpacks build --label org.label-schema.schema-version=1.0 org.label-schema.vendor=dokku com.dokku.image-stage=build com.dokku.builder-type=nixpacks "com.dokku.app-name=$APP" $NIXPACKS_ARGS --env "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
+  nixpacks build --label dokku org.label-schema.schema-version=1.0 org.label-schema.vendor=dokku com.dokku.image-stage=build com.dokku.builder-type=nixpacks "com.dokku.app-name=$APP" $NIXPACKS_ARGS --env "${ENV_ARGS[@]}" --name "$IMAGE" "$SOURCECODE_WORK_DIR"
+
+  if ! suppress_output "$DOCKER_BIN" image build $DOKKU_GLOBAL_BUILD_ARGS -f "$PLUGIN_AVAILABLE_PATH/builder-nixpacks/dockerfiles/builder-build.Dockerfile" --build-arg APP_IMAGE="$IMAGE" -t "$IMAGE" "$TMP_WORK_DIR"; then
+    dokku_log_warn "Failure injecting docker labels and custom entrypoint on image"
+    return 1
+  fi
 
   plugn trigger post-build "$BUILDER_TYPE" "$APP" "$SOURCECODE_WORK_DIR"
   popd &>/dev/null || pushd "/tmp" >/dev/null
